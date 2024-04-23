@@ -8,19 +8,29 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 2, 1, 0, 0, 0],
+    [2, 1, 1, 0, 0, 0, 0, 0],
+    [2, 1, 1, 0, 0, 0, 0, 0],
+    [1, 2, 2, 0, 0, 0, 0, 0],
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
-    newBoard[y][x] = turnColor;
-    if (board[y + 1] !== undefined && board[y + 1][x] === 3 - turnColor) {
-      newBoard[y][x] = turnColor;
-      setTurnColor(3 - turnColor);
-      setBoard(newBoard);
+
+    if (newBoard[y][x] === 0) {
+      if (board[y + 1] !== undefined && board[y + 1][x] === 3 - turnColor) {
+        if (board[y + 2] !== undefined && board[y + 2][x] === turnColor) {
+          newBoard[y][x] = turnColor;
+          setTurnColor(3 - turnColor);
+          setBoard(newBoard);
+        } else if (board[y + 2] !== undefined && board[y + 2][x] === 3 - turnColor) {
+          if (board[y + 3] !== undefined && board[y + 3][x] === turnColor) {
+            newBoard[y][x] = turnColor;
+            setTurnColor(3 - turnColor);
+            setBoard(newBoard);
+          }
+        }
+      }
     }
   };
   return (
