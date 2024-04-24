@@ -17,6 +17,17 @@ const Home = () => {
     console.log(x, y);
     const newBoard = structuredClone(board);
 
+    const direcions = [
+      [0, 1],
+      [1, 1],
+      [1, 0],
+      [1, -1],
+      [0, -1],
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+    ];
+
     if (newBoard[y][x] === 0) {
       for (let i = 1; i < 8; i++) {
         //オセロを置くi個下の座標
