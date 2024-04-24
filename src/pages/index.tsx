@@ -8,31 +8,45 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 1, 2, 1, 0, 0, 0],
-    [2, 1, 1, 0, 0, 0, 0, 0],
-    [2, 1, 1, 0, 0, 0, 0, 0],
-    [1, 2, 2, 0, 0, 0, 0, 0],
+    [0, 0, 1, 2, 1, 0, 0, 2],
+    [2, 1, 1, 0, 0, 2, 2, 2],
+    [2, 1, 1, 0, 0, 2, 2, 2],
+    [1, 2, 2, 0, 0, 1, 1, 1],
   ]);
   const clickHandler = (x: number, y: number) => {
     console.log(x, y);
     const newBoard = structuredClone(board);
 
     if (newBoard[y][x] === 0) {
-      if (board[y + 1] !== undefined && board[y + 1][x] === 3 - turnColor) {
-        if (board[y + 2] !== undefined && board[y + 2][x] === turnColor) {
-          newBoard[y][x] = turnColor;
-          setTurnColor(3 - turnColor);
-          setBoard(newBoard);
-        } else if (board[y + 2] !== undefined && board[y + 2][x] === 3 - turnColor) {
-          if (board[y + 3] !== undefined && board[y + 3][x] === turnColor) {
-            newBoard[y][x] = turnColor;
+      for (let i = 1; i < 8; i++) {
+        //オセロを置くi個下の座標
+        if (board[y + i] === undefined) {
+          //y座標の範囲外
+          break;
+        } else if (board[y + i][x] === undefined) {
+          // x,y座標の範囲外
+          break;
+        } else if (board[y + i][x] === 0) {
+          // 置いてない座標
+          break;
+        } else if (board[y + i][x] === turnColor) {
+          // 置いたオセロと同じ色
+          if (i > 1) {
+            for (let s = i; s >= 0; s--) {
+              newBoard[y + s][x] = turnColor;
+            }
             setTurnColor(3 - turnColor);
             setBoard(newBoard);
           }
+          break;
+        } else if (board[y + i][x] === 3 - turnColor) {
+          //置いたオセロと異なる色
+          continue;
         }
       }
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.boardstyle}>
@@ -52,5 +66,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;
