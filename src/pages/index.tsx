@@ -4,8 +4,8 @@ import { useState } from 'react';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 2, 1, 2, 1, 2, 1, 2],
+    [2, 1, 2, 1, 2, 1, 2, 1],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
     [0, 0, 1, 2, 1, 0, 0, 2],
@@ -17,7 +17,7 @@ const Home = () => {
     console.log(x, y);
     const newBoard = structuredClone(board);
 
-    const direcions = [
+    const d = [
       [0, 1],
       [1, 1],
       [1, 0],
@@ -27,6 +27,9 @@ const Home = () => {
       [-1, 0],
       [-1, 1],
     ];
+
+    const sample = d.map(useState);
+    console.log(sample);
 
     if (newBoard[y][x] === 0) {
       for (let i = 1; i < 8; i++) {
