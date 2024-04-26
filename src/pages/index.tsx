@@ -4,61 +4,65 @@ import { useState } from 'react';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
-    [1, 2, 1, 2, 1, 2, 1, 2],
-    [2, 1, 2, 1, 2, 1, 2, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 1, 2, 1, 0, 0, 2],
-    [2, 1, 1, 0, 0, 2, 2, 2],
-    [2, 1, 1, 0, 0, 2, 2, 2],
-    [1, 2, 2, 0, 0, 1, 1, 1],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const clickHandler = (x: number, y: number) => {
-    console.log(x, y);
+    console.log('今の座標は', x, y);
     const newBoard = structuredClone(board);
 
-    const d = [
-      [0, 1],
-      [1, 1],
-      [1, 0],
-      [1, -1],
-      [0, -1],
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-    ]; // 周りの座標
-
-    for (const directions of d) {
-      const [x1, y1] = directions;
-      const x2 = x + x1;
-      const y2 = y + y1;
-    } //それぞれの周りの座標を一方向ずつ繰り返す
-
+    const directions = [
+      [0, 1], //下
+      [1, 1], //右下
+      [1, 0], //右
+      [1, -1], //右上
+      [0, -1], //上
+      [-1, -1], //左上
+      [-1, 0], //左
+      [-1, 1], //左上
+    ];
     if (newBoard[y][x] === 0) {
-      for (let i = 1; i < 8; i++) {
-        //オセロを置くi個下の座標
-        if (board[y + i] === undefined) {
-          //y座標の範囲外
-          break;
-        } else if (board[y + i][x] === undefined) {
-          // x,y座標の範囲外
-          break;
-        } else if (board[y + i][x] === 0) {
-          // 置いてない座標
-          break;
-        } else if (board[y + i][x] === turnColor) {
-          // 置いたオセロと同じ色
-          if (i > 1) {
-            for (let s = i; s >= 0; s--) {
-              newBoard[y + s][x] = turnColor;
+      for (const direction of directions) {
+        const [x1, y1] = direction;
+
+        console.log('0');
+        for (let i = 1; i < 8; i++) {
+          console.log('d');
+          //オセロを置くi個下の座標
+          if (board[y + y1 * i] === undefined) {
+            //y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
+            // x,y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === 0) {
+            // 置いてない座標
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+            console.log('e');
+            // 置いたオセロと同じ色
+            if (i > 1) {
+              console.log('c');
+              for (let s = i; s >= 0; s--) {
+                newBoard[y + y1 * s][x + x1 * s] = turnColor;
+              }
+              setTurnColor(3 - turnColor);
+              setBoard(newBoard);
+              console.log('a');
+              break;
             }
-            setTurnColor(3 - turnColor);
-            setBoard(newBoard);
+          } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
+            //置いたオセロと異なる色
+
+            console.log('b');
+            continue;
           }
-          break;
-        } else if (board[y + i][x] === 3 - turnColor) {
-          //置いたオセロと異なる色
-          continue;
         }
       }
     }
