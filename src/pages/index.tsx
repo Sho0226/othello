@@ -28,34 +28,37 @@ const Home = () => {
       [-1, 1],
     ];
 
-    const sample = d.map(useState);
-    console.log(sample);
+    for (const directions of d) {
+      const [x1, y1] = directions;
+      const x2 = x + x1;
+      const y2 = y + y1;
 
-    if (newBoard[y][x] === 0) {
-      for (let i = 1; i < 8; i++) {
-        //オセロを置くi個下の座標
-        if (board[y + i] === undefined) {
-          //y座標の範囲外
-          break;
-        } else if (board[y + i][x] === undefined) {
-          // x,y座標の範囲外
-          break;
-        } else if (board[y + i][x] === 0) {
-          // 置いてない座標
-          break;
-        } else if (board[y + i][x] === turnColor) {
-          // 置いたオセロと同じ色
-          if (i > 1) {
-            for (let s = i; s >= 0; s--) {
-              newBoard[y + s][x] = turnColor;
+      if (newBoard[y][x] === 0) {
+        for (let i = 1; i < 8; i++) {
+          //オセロを置くi個下の座標
+          if (board[y2] === undefined) {
+            //y座標の範囲外
+            break;
+          } else if (board[y2][x] === undefined) {
+            // x,y座標の範囲外
+            break;
+          } else if (board[y2][x] === 0) {
+            // 置いてない座標
+            break;
+          } else if (board[y2][x] === turnColor) {
+            // 置いたオセロと同じ色
+            if (y2 > 1) {
+              for (let s = y2; s >= 0; s--) {
+                newBoard[s][x] = turnColor;
+              }
+              setTurnColor(3 - turnColor);
+              setBoard(newBoard);
             }
-            setTurnColor(3 - turnColor);
-            setBoard(newBoard);
+            break;
+          } else if (board[y2][x] === 3 - turnColor) {
+            //置いたオセロと異なる色
+            continue;
           }
-          break;
-        } else if (board[y + i][x] === 3 - turnColor) {
-          //置いたオセロと異なる色
-          continue;
         }
       }
     }
