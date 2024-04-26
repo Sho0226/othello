@@ -26,13 +26,13 @@ const Home = () => {
       [-1, -1],
       [-1, 0],
       [-1, 1],
-    ];
+    ]; // 周りの座標
 
     for (const directions of d) {
       const [x1, y1] = directions;
       const x2 = x + x1;
       const y2 = y + y1;
-    }
+    } //それぞれの周りの座標を一方向ずつ繰り返す
 
     if (newBoard[y][x] === 0) {
       for (let i = 1; i < 8; i++) {
