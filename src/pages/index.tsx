@@ -48,14 +48,18 @@ const Home = () => {
             console.log('e');
             // 置いたオセロと同じ色
             if (i > 1) {
-              console.log('c');
-              for (let s = i; s >= 0; s--) {
-                newBoard[y + y1 * s][x + x1 * s] = turnColor;
+              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
+                // 置いてない座標
+                break;
+              } else {
+                for (let s = i; s >= 0; s--) {
+                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
+                }
+                setTurnColor(3 - turnColor);
+                setBoard(newBoard);
+                console.log('a');
+                break;
               }
-              setTurnColor(3 - turnColor);
-              setBoard(newBoard);
-              console.log('a');
-              break;
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
