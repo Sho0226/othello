@@ -31,9 +31,7 @@ const Home = () => {
       for (const direction of directions) {
         const [x1, y1] = direction;
 
-        console.log('0');
         for (let i = 1; i < 8; i++) {
-          console.log('d');
           //オセロを置くi個下の座標
           if (board[y + y1 * i] === undefined) {
             //y座標の範囲外
@@ -45,11 +43,10 @@ const Home = () => {
             // 置いてない座標
             break;
           } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-            console.log('e');
             // 置いたオセロと同じ色
             if (i > 1) {
               if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
-                // 置いてない座標
+                // // 周囲の座標の色と周囲の座標の周りの色
                 break;
               } else {
                 for (let s = i; s >= 0; s--) {
@@ -57,14 +54,13 @@ const Home = () => {
                 }
                 setTurnColor(3 - turnColor);
                 setBoard(newBoard);
-                console.log('a');
+
                 break;
               }
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
 
-            console.log('b');
             continue;
           }
         }
