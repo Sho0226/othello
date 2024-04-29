@@ -68,6 +68,22 @@ const Home = () => {
     }
   };
 
+  const countStones = (board: number[][]) => {
+    let blackCount = 0;
+    let whiteCount = 0;
+
+    board.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell === 1) {
+          blackCount++;
+        } else if (cell === 2) {
+          whiteCount++;
+        }
+      });
+    });
+    console.log(blackCount, whiteCount);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.boardstyle}>
@@ -87,4 +103,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
