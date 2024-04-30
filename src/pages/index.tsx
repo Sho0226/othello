@@ -72,10 +72,10 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <>
-        black {colorNum(1)}
-        /white {colorNum(2)}
+        <span className={styles.textlarge}>black {colorNum(1)}</span>
+        <span className={styles.textlarge}>white {colorNum(2)}</span>
         <br />
-        {['', '黒のターン', '白のターン'][turnColor]}
+        <span className={styles.textlarge}> {['', '黒のターン', '白のターン'][turnColor]}</span>
       </>
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
