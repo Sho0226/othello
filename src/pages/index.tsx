@@ -72,8 +72,10 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <>
-        <span className={styles.textlarge}>black {colorNum(1)}</span>
-        <span className={styles.textlarge}>white {colorNum(2)}</span>
+        <span className={styles.textlarge}>
+          black {colorNum(1)} / white {colorNum(2)}
+        </span>
+
         <br />
         <span className={styles.textlarge}> {['', '黒のターン', '白のターン'][turnColor]}</span>
       </>
