@@ -18,14 +18,14 @@ const Home = () => {
     const newBoard = structuredClone(board);
 
     const directions = [
-      [0, 1], //下
-      [1, 1], //右下
-      [1, 0], //右
-      [1, -1], //右上
-      [0, -1], //上
-      [-1, -1], //左上
-      [-1, 0], //左
-      [-1, 1], //左上
+      [0, 1], // Down
+      [1, 1], // Down-right
+      [1, 0], // Right
+      [1, -1], // Up-right
+      [0, -1], // Up
+      [-1, -1], // Up-left
+      [-1, 0], // Left
+      [-1, 1], // Down-left
     ];
     if (newBoard[y][x] === 0) {
       for (const direction of directions) {
