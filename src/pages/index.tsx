@@ -67,25 +67,16 @@ const Home = () => {
       }
     }
   };
-
-  const countStones = (board: number[][]) => {
-    let blackCount = 0;
-    let whiteCount = 0;
-
-    board.forEach((row) => {
-      row.forEach((cell) => {
-        if (cell === 1) {
-          blackCount++;
-        } else if (cell === 2) {
-          whiteCount++;
-        }
-      });
-    });
-    console.log(blackCount, whiteCount);
-  };
+  const colorNum = (col: number) => board.flat().filter((c) => c === col).length;
 
   return (
     <div className={styles.container}>
+      <>
+        black {colorNum(1)}
+        /white {colorNum(2)}
+        <br />
+        {['', '黒のターン', '白のターン'][turnColor]}
+      </>
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
