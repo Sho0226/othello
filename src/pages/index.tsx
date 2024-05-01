@@ -54,9 +54,17 @@ const Home = () => {
                 }
                 setTurnColor(3 - turnColor);
                 setBoard(newBoard);
-
                 break;
               }
+              return (
+                <div className={styles.place}>
+                  {board[y + y1 * i][x + x1 * i] === turnColor && (
+                    // 条件式が true の場合に表示される内容
+                    style= {background: color === `#f119`;}
+                  )}
+                </div>
+              );
+
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
@@ -67,6 +75,7 @@ const Home = () => {
       }
     }
   };
+
   const colorNum = (col: number) => board.flat().filter((c) => c === col).length;
 
   return (
