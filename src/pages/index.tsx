@@ -86,7 +86,7 @@ const Home = () => {
         {board.map((row, y) =>
           row.map((color, x) => (
             <div
-              className={`${styles.cellstyle} ${newBoard[y][x] === 0 && styles.place}`}
+              className={`${styles.cellstyle} ${styles.place}`}
               key={`${x}-${y}`}
               onClick={() => clickHandler(x, y)}
             >
