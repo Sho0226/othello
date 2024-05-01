@@ -28,6 +28,7 @@ const Home = () => {
       [-1, 1], // Down-left
     ];
     if (newBoard[y][x] === 0) {
+      let place = false;
       for (const direction of directions) {
         const [x1, y1] = direction;
 
@@ -47,6 +48,7 @@ const Home = () => {
             if (i > 1) {
               if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
                 // // 周囲の座標の色と周囲の座標の周りの色
+                place = true;
                 break;
               } else {
                 for (let s = i; s >= 0; s--) {
@@ -64,6 +66,7 @@ const Home = () => {
             continue;
           }
         }
+        if (place) break;
       }
     }
   };
@@ -82,7 +85,11 @@ const Home = () => {
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
-            <div className={styles.cellstyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+            <div
+              className={`${styles.cellstyle} ${newBoard[y][x] === 0 && styles.place}`}
+              key={`${x}-${y}`}
+              onClick={() => clickHandler(x, y)}
+            >
               {color !== 0 && (
                 <div
                   className={styles.stonestyle}
