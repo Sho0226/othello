@@ -37,6 +37,8 @@
   font-size: 35px;
 }
 
-.noclickstyle {
-  background-color: blueviolet;
+.blue {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
 }
