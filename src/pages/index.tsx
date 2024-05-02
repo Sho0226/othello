@@ -6,83 +6,15 @@ const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 0, 0, 0],
-    [0, 0, 0, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 1, 2, 3, 0, 0],
+    [0, 0, 3, 2, 1, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
   console.log(1);
-  const NoclickHandler = (x: number, y: number) => {
-    console.log(3);
-    const putables: [number, number][] = [];
-    const newBoard = structuredClone(board);
-    const directions = [
-      [0, 1], // Down
-      [1, 1], // Down-right
-      [1, 0], // Right
-      [1, -1], // Up-right
-      [0, -1], // Up
-      [-1, -1], // Up-left
-      [-1, 0], // Left
-      [-1, 1], // Down-left
-    ];
-    if (newBoard[y][x] === 0) {
-      console.log(3);
-      for (const direction of directions) {
-        const [x1, y1] = direction;
-
-        for (let i = 1; i < 8; i++) {
-          //オセロを置くi個下の座標
-          if (board[y + y1 * i] === undefined) {
-            //y座標の範囲外
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
-            // x,y座標の範囲外
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === 0) {
-            // 置いてない座標
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-            // 置いたオセロと同じ色
-            if (i > 1) {
-              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
-                // // 周囲の座標の色と周囲の座標の周りの色
-                break;
-              } else {
-                for (let s = i; s >= 0; s--) {
-                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
-                }
-                setTurnColor(3 - turnColor);
-                setBoard(newBoard);
-                break;
-              }
-            }
-          } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
-            //置いたオセロと異なる色
-
-            for (let y = 0; y < board.length; y++) {
-              for (
-                let x = 0;
-                x < board[y].length;
-                x++ // クリック前にオセロを置けるかどうかをチェック
-              ) {
-                if (board[y + y1 * i][x + x1 * i] === turnColor) {
-                  putables[y + y1 * i][x + x1 * i]; // クリック可能なセルの位置を追加
-                }
-              }
-              console.log(2);
-              continue;
-            }
-          }
-        }
-      }
-    }
-  };
-
-  return <div className={styles.noclickstyle}>putables</div>;
 
   const clickHandler = (x: number, y: number) => {
     console.log('今の座標は', x, y);
@@ -98,39 +30,85 @@ const Home = () => {
       [-1, 0], // Left
       [-1, 1], // Down-left
     ];
-    if (newBoard[y][x] === 0) {
+    if (newBoard[y][x] === 3) {
+      console.log(10);
+      const updatedBoard = board.map((row) => row.map((cell) => (cell === 3 ? 0 : cell)));
       for (const direction of directions) {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
+          const Y = y + y1 * i;
+          const X = x + x1 * i;
           //オセロを置くi個下の座標
-          if (board[y + y1 * i] === undefined) {
+          if (updatedBoard[y + y1 * i] === undefined) {
             //y座標の範囲外
             break;
-          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
+          } else if (updatedBoard[Y][X] === undefined) {
             // x,y座標の範囲外
             break;
-          } else if (board[y + y1 * i][x + x1 * i] === 0) {
+          } else if (updatedBoard[Y][X] === 0) {
             // 置いてない座標
             break;
-          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+          } else if (updatedBoard[Y][X] === turnColor) {
+            console.log(12);
             // 置いたオセロと同じ色
             if (i > 1) {
-              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
+              if (updatedBoard[Y][X] === updatedBoard[y + y1][x + x1]) {
                 // // 周囲の座標の色と周囲の座標の周りの色
                 break;
               } else {
                 for (let s = i; s >= 0; s--) {
-                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
+                  updatedBoard[y + y1 * s][x + x1 * s] = turnColor;
                 }
                 setTurnColor(3 - turnColor);
-                setBoard(newBoard);
-                break;
-              }
-            }
-          } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
-            //置いたオセロと異なる色
+                setBoard(updatedBoard);
+                for (let i = 0; i < 8; i++) {
+                  for (let j = 0; j < 8; j++) {
+                    if (updatedBoard[i][j] === 0) {
+                      // 空のマスならば、次の手番で置けるかどうかを調べる
+                      let canPlace = false;
+                      for (const direction of directions) {
+                        const [x1, y1] = direction;
+                        let foundOpponent = false;
+                        for (let k = 1; k < 8; k++) {
+                          const newX = j + x1 * k;
+                          const newY = i + y1 * k;
 
+                          // オセロを置くマスが盤面外の場合、ループを終了
+                          if (newX < 0 || newY < 0 || newX >= 8 || newY >= 8) break;
+                          console.log(2);
+
+                          if (updatedBoard[newY][newX] === 0 || updatedBoard[newY][newX] === 3) {
+                            // 空のマスか3のマスの場合、置ける
+                            if (updatedBoard[newY][newX] === 3) {
+                              foundOpponent = true;
+                              break;
+                            }
+                            break;
+                          } else if (updatedBoard[newY][newX] !== turnColor) {
+                            // 置いたオセロと同じ色の場合、逆算を終了
+                            if (foundOpponent) {
+                              canPlace = true;
+                            }
+                            break;
+                          } else {
+                            // 異なる色のオセロがある場合、次の方向を調べる
+                            foundOpponent = true;
+                          }
+                        }
+                        if (canPlace) break;
+                      }
+                      console.log(4);
+                      if (canPlace) updatedBoard[i][j] = 3; // 置ける場所を3に設定
+                    }
+                  }
+                }
+              }
+              break;
+            }
+          } else if (board[Y][X] === 3 - turnColor) {
+            setBoard(newBoard);
+            console.log(14);
             continue;
           }
         }
@@ -157,7 +135,7 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stonestyle}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                  style={{ background: color === 1 ? '#000' : color === 2 ? '#fff' : '#00f' }}
                 />
               )}
             </div>
