@@ -13,6 +13,77 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
+  console.log(1);
+  const NoclickHandler = (x: number, y: number) => {
+    console.log(3);
+    const putables: [number, number][] = [];
+    const newBoard = structuredClone(board);
+    const directions = [
+      [0, 1], // Down
+      [1, 1], // Down-right
+      [1, 0], // Right
+      [1, -1], // Up-right
+      [0, -1], // Up
+      [-1, -1], // Up-left
+      [-1, 0], // Left
+      [-1, 1], // Down-left
+    ];
+    if (newBoard[y][x] === 0) {
+      console.log(3);
+      for (const direction of directions) {
+        const [x1, y1] = direction;
+
+        for (let i = 1; i < 8; i++) {
+          //オセロを置くi個下の座標
+          if (board[y + y1 * i] === undefined) {
+            //y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
+            // x,y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === 0) {
+            // 置いてない座標
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+            // 置いたオセロと同じ色
+            if (i > 1) {
+              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
+                // // 周囲の座標の色と周囲の座標の周りの色
+                break;
+              } else {
+                for (let s = i; s >= 0; s--) {
+                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
+                }
+                setTurnColor(3 - turnColor);
+                setBoard(newBoard);
+                break;
+              }
+            }
+          } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
+            //置いたオセロと異なる色
+
+            for (let y = 0; y < board.length; y++) {
+              for (
+                let x = 0;
+                x < board[y].length;
+                x++ // クリック前にオセロを置けるかどうかをチェック
+              ) {
+                if (board[y + y1 * i][x + x1 * i] === turnColor) {
+                  putables[y + y1 * i][x + x1 * i]; // クリック可能なセルの位置を追加
+                }
+              }
+              console.log(2);
+              continue;
+            }
+          }
+        }
+      }
+    }
+  };
+
+  return <div className={styles.noclickstyle}>putables</div>;
+
   const clickHandler = (x: number, y: number) => {
     console.log('今の座標は', x, y);
     const newBoard = structuredClone(board);
@@ -56,15 +127,6 @@ const Home = () => {
                 setBoard(newBoard);
                 break;
               }
-              return (
-                <div className={styles.place}>
-                  {board[y + y1 * i][x + x1 * i] === turnColor && (
-                    // 条件式が true の場合に表示される内容
-                    style= {background: color === `#f119`;}
-                  )}
-                </div>
-              );
-
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
