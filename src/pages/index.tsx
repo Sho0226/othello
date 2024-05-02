@@ -14,37 +14,51 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
+  const directions = [
+    [0, 1], // Down
+    [1, 1], // Down-right
+    [1, 0], // Right
+    [1, -1], // Up-right
+    [0, -1], // Up
+    [-1, -1], // Up-left
+    [-1, 0], // Left
+    [-1, 1], // Down-left
+  ];
+
   const clickHandler = (x: number, y: number) => {
     console.log('今の座標は', x, y);
     const newBoard = structuredClone(board);
 
-    const directions = [
-      [0, 1], // Down
-      [1, 1], // Down-right
-      [1, 0], // Right
-      [1, -1], // Up-right
-      [0, -1], // Up
-      [-1, -1], // Up-left
-      [-1, 0], // Left
-      [-1, 1], // Down-left
-    ];
+    for (let a = 0; a < 8; a++) {
+      for (let b = 0; b < 8; b++) {
+        if (board[b][a] === 3) {
+          newBoard[b][a] = 0;
+          console.log('a');
+        }
+      }
+    }
 
-    if (newBoard[y][x] === 0) {
+    if (board[y][x] === 3) {
+      console.log('i');
       for (const direction of directions) {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
           //オセロを置くi個下の座標
           if (board[y + y1 * i] === undefined) {
+            console.log('h');
             //y座標の範囲外
             break;
           } else if (board[y + y1 * i][x + x1 * i] === undefined) {
+            console.log('g');
             // x,y座標の範囲外
             break;
-          } else if (board[y + y1 * i][x + x1 * i] === 0) {
+          } else if (board[y + y1 * i][x + x1 * i] === 0 && board[y + y1 * i][x + x1 * i] === 3) {
+            console.log('f');
             // 置いてない座標
             break;
           } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+            console.log('e');
             // 置いたオセロと同じ色
             if (i > 1) {
               if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
@@ -54,14 +68,16 @@ const Home = () => {
                 for (let s = i; s >= 0; s--) {
                   newBoard[y + y1 * s][x + x1 * s] = turnColor;
                 }
+                console.log('c');
                 setTurnColor(3 - turnColor);
                 setBoard(newBoard);
+
                 break;
               }
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
-
+            console.log('d');
             continue;
           }
         }
@@ -70,38 +86,32 @@ const Home = () => {
 
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
-        if (newBoard[i][j] === 0) {
+        if (board[i][j] === 0) {
           for (const direction of directions) {
             const [x1, y1] = direction;
             for (let k = 1; k < 8; k++) {
               const newX = j + x1 * k;
               const newY = i + y1 * k;
 
-              if (newX < 0 || newY < 0 || newX >= 8 || newY >= 8) break;
-
-              if (board[newY][newX] === 0 || board[newY][newX] === 3) {
-                if (board[newY][newX] === 3) {
-                  break;
-                }
+              if (board[newY] === undefined) {
+                break;
+              } else if (board[newY][newX] === undefined) {
+                break;
+              } else if (board[newY][newX] === 0) {
+                break;
+              } else if (board[newY][newX] === 3) {
                 break;
               } else if (board[newY][newX] === turnColor) {
-                if (k > 1) {
-                  if (board[newY][newX] === board[i + y1][j + x1]) {
-                    break;
-                  } else {
-                    board[newY][newX] === 3;
-                    setBoard(newBoard);
-                    break;
-                  }
-                }
-              } else if (board[newY][newX] === 3 - turnColor) {
                 continue;
+              } else if (board[newY][newX] === 3 - turnColor) {
+                newBoard[i][j] = 3;
               }
             }
           }
         }
       }
     }
+    console.log('aa');
   };
 
   const colorNum = (col: number) => board.flat().filter((c) => c === col).length;
