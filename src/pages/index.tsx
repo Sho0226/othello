@@ -33,32 +33,26 @@ const Home = () => {
       for (let b = 0; b < 8; b++) {
         if (board[b][a] === 3) {
           newBoard[b][a] = 0;
-          console.log('a');
         }
       }
     }
 
     if (board[y][x] === 3) {
-      console.log('i');
       for (const direction of directions) {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
           //オセロを置くi個下の座標
           if (board[y + y1 * i] === undefined) {
-            console.log('h');
             //y座標の範囲外
             break;
           } else if (board[y + y1 * i][x + x1 * i] === undefined) {
-            console.log('g');
             // x,y座標の範囲外
             break;
           } else if (board[y + y1 * i][x + x1 * i] === 0 && board[y + y1 * i][x + x1 * i] === 3) {
-            console.log('f');
             // 置いてない座標
             break;
           } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-            console.log('e');
             // 置いたオセロと同じ色
             if (i > 1) {
               if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
@@ -68,7 +62,7 @@ const Home = () => {
                 for (let s = i; s >= 0; s--) {
                   newBoard[y + y1 * s][x + x1 * s] = turnColor;
                 }
-                console.log('c');
+
                 setTurnColor(3 - turnColor);
                 setBoard(newBoard);
 
@@ -77,7 +71,7 @@ const Home = () => {
             }
           } else if (board[y + y1 * i][x + x1 * i] === 3 - turnColor) {
             //置いたオセロと異なる色
-            console.log('d');
+
             continue;
           }
         }
@@ -85,7 +79,9 @@ const Home = () => {
     }
 
     for (let i = 0; i < 8; i++) {
+      console.log('abc');
       for (let j = 0; j < 8; j++) {
+        console.log('cde');
         if (board[i][j] === 0) {
           for (const direction of directions) {
             const [x1, y1] = direction;
@@ -97,13 +93,27 @@ const Home = () => {
                 break;
               } else if (board[newY][newX] === undefined) {
                 break;
+              } else if (board[i + y1][j + y1] !== 3 - turnColor) {
+                break;
               } else if (board[newY][newX] === 0) {
                 break;
               } else if (board[newY][newX] === 3) {
                 break;
               } else if (board[newY][newX] === turnColor) {
-                continue;
+                console.log('aaa');
+                if (k > 1) {
+                  if (board[newY][newX] === board[i + y1][j + x1]) {
+                    console.log('bbb');
+                    break;
+                  } else {
+                    console.log('CCC');
+                    newBoard[i][j] = 3;
+
+                    break;
+                  }
+                }
               } else if (board[newY][newX] === 3 - turnColor) {
+                console.log(222);
                 newBoard[i][j] = 3;
               }
             }
