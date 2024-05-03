@@ -82,27 +82,25 @@ const Home = () => {
       console.log('abc');
       for (let j = 0; j < 8; j++) {
         console.log('cde');
-        if (board[i][j] === 0) {
+        if (newBoard[i][j] === 0) {
           for (const direction of directions) {
             const [x1, y1] = direction;
             for (let k = 1; k < 8; k++) {
               const newX = j + x1 * k;
               const newY = i + y1 * k;
 
-              if (board[newY] === undefined) {
+              if (newBoard[newY] === undefined) {
                 break;
-              } else if (board[newY][newX] === undefined) {
+              } else if (newBoard[newY][newX] === undefined) {
                 break;
-              } else if (board[i + y1][j + y1] !== 3 - turnColor) {
+              } else if (newBoard[newY][newX] === 0) {
                 break;
-              } else if (board[newY][newX] === 0) {
+              } else if (newBoard[newY][newX] === 3) {
                 break;
-              } else if (board[newY][newX] === 3) {
-                break;
-              } else if (board[newY][newX] === turnColor) {
+              } else if (newBoard[newY][newX] === 3 - turnColor) {
                 console.log('aaa');
                 if (k > 1) {
-                  if (board[newY][newX] === board[i + y1][j + x1]) {
+                  if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
                     console.log('bbb');
                     break;
                   } else {
@@ -112,16 +110,16 @@ const Home = () => {
                     break;
                   }
                 }
-              } else if (board[newY][newX] === 3 - turnColor) {
+              } else if (newBoard[newY][newX] === turnColor) {
                 console.log(222);
-                newBoard[i][j] = 3;
+                continue;
               }
             }
           }
         }
       }
     }
-    console.log('aa');
+    console.table(newBoard);
   };
 
   const colorNum = (col: number) => board.flat().filter((c) => c === col).length;
