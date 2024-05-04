@@ -6,10 +6,10 @@ const Home = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 1, 2, 3, 0, 0],
-    [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 1, 3, 3, 3, 3, 0, 0],
+    [0, 0, 2, 2, 2, 0, 0, 0],
+    [0, 0, 1, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -43,18 +43,13 @@ const Home = () => {
 
                 if (newBoard[newY] !== undefined) {
                   if (newBoard[newY][newX] !== undefined) {
-                    if (newBoard[newY][newX] === 0) {
-                      break;
-                    } else if (newBoard[newY][newX] === 3) {
-                      break;
-                    } else if (newBoard[newY][newX] === turnColor) {
-                      if (k > 1) {
-                        if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
-                          break;
-                        } else {
-                          newBoard[i][j] = 3;
-
-                          break;
+                    if (newBoard[newY][newX] !== 0) {
+                      if (newBoard[newY][newX] !== 3) {
+                        if (newBoard[newY][newX] === turnColor) {
+                          if (newBoard[newY][newX] !== newBoard[i + y1][j + x1]) {
+                            newBoard[i][j] = 3;
+                            break;
+                          }
                         }
                       }
                     }
@@ -87,7 +82,7 @@ const Home = () => {
           } else if (board[y + y1 * i][x + x1 * i] === undefined) {
             // x,y座標の範囲外
             break;
-          } else if (board[y + y1 * i][x + x1 * i] === 0 && board[y + y1 * i][x + x1 * i] === 3) {
+          } else if (board[y + y1 * i][x + x1 * i] === 0 || board[y + y1 * i][x + x1 * i] === 3) {
             // 置いてない座標
             break;
           } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
