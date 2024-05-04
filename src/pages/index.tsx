@@ -4,11 +4,11 @@ import { useState } from 'react';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
+    [1, 1, 1, 0, 0, 0, 0, 0],
+    [2, 2, 0, 0, 0, 0, 0, 0],
+    [3, 3, 3, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 3, 3, 3, 3, 0, 0],
-    [0, 0, 2, 2, 2, 0, 0, 0],
-    [0, 0, 1, 1, 1, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,9 +31,21 @@ const Home = () => {
   const newBoard = structuredClone(board);
 
   const clickHandler = (x: number, y: number) => {
+    if (
+      colorNum(1) === 0 ||
+      colorNum(2) === 0 ||
+      colorNum(1) + colorNum(2) === 64 ||
+      blackPassCount === 2 ||
+      whitePassCount === 2
+    ) {
+      return;
+    }
     const assist = () => {
+      console.log(11111);
       for (let i = 0; i < 8; i++) {
+        console.log('abc');
         for (let j = 0; j < 8; j++) {
+          console.log('cde');
           if (newBoard[i][j] === 0) {
             for (const direction of directions) {
               const [x1, y1] = direction;
@@ -41,17 +53,22 @@ const Home = () => {
                 const newX = j + x1 * k;
                 const newY = i + y1 * k;
 
-                if (newBoard[newY] !== undefined) {
-                  if (newBoard[newY][newX] !== undefined) {
-                    if (newBoard[newY][newX] !== 0) {
-                      if (newBoard[newY][newX] !== 3) {
-                        if (newBoard[newY][newX] === turnColor) {
-                          if (newBoard[newY][newX] !== newBoard[i + y1][j + x1]) {
-                            newBoard[i][j] = 3;
-                            break;
-                          }
-                        }
-                      }
+                if (newBoard[newY] === undefined) {
+                  break;
+                } else if (newBoard[newY][newX] === undefined) {
+                  break;
+                } else if (newBoard[newY][newX] === 0) {
+                  break;
+                } else if (newBoard[newY][newX] === 3) {
+                  break;
+                } else if (newBoard[newY][newX] === turnColor) {
+                  if (k > 1) {
+                    if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
+                      break;
+                    } else {
+                      newBoard[i][j] = 3;
+
+                      break;
                     }
                   }
                 }
@@ -75,24 +92,32 @@ const Home = () => {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
-          if (board[y + y1 * i] !== undefined && board[y + y1 * i][x + x1 * i] !== undefined) {
-            if (board[y + y1 * i][x + x1 * i] === 0 || board[y + y1 * i][x + x1 * i] === 3) {
-              break;
-            } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-              // 置いたオセロと同じ色
-              if (i > 1) {
-                if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
-                  // // 周囲の座標の色と周囲の座標の周りの色
-                  break;
-                } else {
-                  for (let s = i; s >= 0; s--) {
-                    newBoard[y + y1 * s][x + x1 * s] = turnColor;
-                  }
-                  setTurnColor(3 - turnColor);
-                  setBoard(newBoard);
-
-                  break;
+          //オセロを置くi個下の座標
+          if (board[y + y1 * i] === undefined) {
+            //y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
+            // x,y座標の範囲外
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === 0) {
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === 3) {
+            // 置いてない座標
+            break;
+          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+            // 置いたオセロと同じ色
+            if (i > 1) {
+              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
+                // // 周囲の座標の色と周囲の座標の周りの色
+                break;
+              } else {
+                for (let s = i; s >= 0; s--) {
+                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
                 }
+                setTurnColor(3 - turnColor);
+                setBoard(newBoard);
+
+                break;
               }
             }
           }
@@ -158,11 +183,15 @@ const Home = () => {
         <span className={styles.textlarge}> {['', '黒のターン', '白のターン'][turnColor]}</span>
       </>
       {colorNum(1) === 0 ? '黒の負け' : '' || colorNum(2) === 0 ? '白の負け' : ''}
-      {blackPassCount === 2
-        ? '黒の負け(二回パス)'
-        : '' || whitePassCount === 2
-          ? '白の負け(二回パス)'
-          : ''}
+      {colorNum(1) + colorNum(2) === 64 && (colorNum(1) > colorNum(2) ? '黒の勝ち' : '白の勝ち')}
+
+      {colorNum(1) + colorNum(2) < 64 &&
+        (blackPassCount === 2
+          ? '黒の負け(二回パス)'
+          : '' || whitePassCount === 2
+            ? '白の負け(二回パス)'
+            : '')}
+
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
