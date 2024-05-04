@@ -41,11 +41,8 @@ const Home = () => {
       return;
     }
     const assist = () => {
-      console.log(11111);
       for (let i = 0; i < 8; i++) {
-        console.log('abc');
         for (let j = 0; j < 8; j++) {
-          console.log('cde');
           if (newBoard[i][j] === 0) {
             for (const direction of directions) {
               const [x1, y1] = direction;
