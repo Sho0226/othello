@@ -31,10 +31,7 @@ const Home = () => {
   const newBoard = structuredClone(board);
 
   const clickHandler = (x: number, y: number) => {
-    console.log('今の座標は', x, y);
-
     const assist = () => {
-      console.log(11111);
       for (let i = 0; i < 8; i++) {
         console.log('abc');
         for (let j = 0; j < 8; j++) {
@@ -46,22 +43,22 @@ const Home = () => {
                 const newX = j + x1 * k;
                 const newY = i + y1 * k;
 
-                if (newBoard[newY] === undefined) {
-                  break;
-                } else if (newBoard[newY][newX] === undefined) {
-                  break;
-                } else if (newBoard[newY][newX] === 0) {
-                  break;
-                } else if (newBoard[newY][newX] === 3) {
-                  break;
-                } else if (newBoard[newY][newX] === turnColor) {
-                  if (k > 1) {
-                    if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
+                if (newBoard[newY] !== undefined) {
+                  if (newBoard[newY][newX] !== undefined) {
+                    if (newBoard[newY][newX] === 0) {
                       break;
-                    } else {
-                      newBoard[i][j] = 3;
+                    } else if (newBoard[newY][newX] === 3) {
+                      break;
+                    } else if (newBoard[newY][newX] === turnColor) {
+                      if (k > 1) {
+                        if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
+                          break;
+                        } else {
+                          newBoard[i][j] = 3;
 
-                      break;
+                          break;
+                        }
+                      }
                     }
                   }
                 }
