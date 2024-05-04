@@ -75,30 +75,24 @@ const Home = () => {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
-          //オセロを置くi個下の座標
-          if (board[y + y1 * i] === undefined) {
-            //y座標の範囲外
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === undefined) {
-            // x,y座標の範囲外
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === 0 || board[y + y1 * i][x + x1 * i] === 3) {
-            // 置いてない座標
-            break;
-          } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-            // 置いたオセロと同じ色
-            if (i > 1) {
-              if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
-                // // 周囲の座標の色と周囲の座標の周りの色
-                break;
-              } else {
-                for (let s = i; s >= 0; s--) {
-                  newBoard[y + y1 * s][x + x1 * s] = turnColor;
-                }
-                setTurnColor(3 - turnColor);
-                setBoard(newBoard);
+          if (board[y + y1 * i] !== undefined && board[y + y1 * i][x + x1 * i] !== undefined) {
+            if (board[y + y1 * i][x + x1 * i] === 0 || board[y + y1 * i][x + x1 * i] === 3) {
+              break;
+            } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
+              // 置いたオセロと同じ色
+              if (i > 1) {
+                if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
+                  // // 周囲の座標の色と周囲の座標の周りの色
+                  break;
+                } else {
+                  for (let s = i; s >= 0; s--) {
+                    newBoard[y + y1 * s][x + x1 * s] = turnColor;
+                  }
+                  setTurnColor(3 - turnColor);
+                  setBoard(newBoard);
 
-                break;
+                  break;
+                }
               }
             }
           }
