@@ -172,15 +172,28 @@ const Home = () => {
             : ['', '黒のターン', '白のターン'][turnColor]}
         </span>
       </>
-      {colorNum(1) === 0 ? '黒の負け' : '' || colorNum(2) === 0 ? '白の負け' : ''}
-      {colorNum(1) + colorNum(2) === 64 && (colorNum(1) > colorNum(2) ? '黒の勝ち' : '白の勝ち')}
+      {colorNum(1) === 0 ? (
+        <span className={styles.text}>黒の負け</span>
+      ) : '' || colorNum(2) === 0 ? (
+        <span className={styles.text}>白の負け</span>
+      ) : (
+        ''
+      )}
+      {colorNum(1) + colorNum(2) === 64 &&
+        (colorNum(1) > colorNum(2) ? (
+          <span className={styles.text}>黒の勝ち</span>
+        ) : (
+          <span className={styles.text}>白の勝ち</span>
+        ))}
 
       {colorNum(1) + colorNum(2) < 64 &&
-        (blackPassCount === 2
-          ? '黒の負け(二回パス)'
-          : '' || whitePassCount === 2
-            ? '白の負け(二回パス)'
-            : '')}
+        (blackPassCount === 2 ? (
+          <span className={styles.text}>黒の負け:二回パス</span>
+        ) : '' || whitePassCount === 2 ? (
+          <span className={styles.text}>白の負け:二回パス</span>
+        ) : (
+          ''
+        ))}
 
       <div className={styles.boardstyle}>
         {board.map((row, y) =>

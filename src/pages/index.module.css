@@ -43,3 +43,11 @@
   height: 14px;
   border-radius: 50%;
 }
+
+.text {
+  padding: 5px 10px; /* パディングを追加して余白を作る */
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #333; /* 落ち着いたダークグレー */
+}
