@@ -131,22 +131,20 @@ const Home = () => {
               const newX = j + x1 * k;
               const newY = i + y1 * k;
 
-              if (newBoard[newY] === undefined) {
-                break;
-              } else if (newBoard[newY][newX] === undefined) {
-                break;
-              } else if (newBoard[newY][newX] === 0) {
-                break;
-              } else if (newBoard[newY][newX] === 3) {
-                break;
-              } else if (newBoard[newY][newX] === 3 - turnColor) {
-                if (k > 1) {
-                  if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
-                    break;
-                  } else {
-                    newBoard[i][j] = 3;
+              if (newBoard[newY] !== undefined && newBoard[newY][newX] !== undefined) {
+                if (newBoard[newY][newX] === 0) {
+                  break;
+                } else if (newBoard[newY][newX] === 3) {
+                  break;
+                } else if (newBoard[newY][newX] === 3 - turnColor) {
+                  if (k > 1) {
+                    if (newBoard[newY][newX] === newBoard[i + y1][j + x1]) {
+                      break;
+                    } else {
+                      newBoard[i][j] = 3;
 
-                    break;
+                      break;
+                    }
                   }
                 }
               }
