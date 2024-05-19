@@ -166,7 +166,11 @@ const Home = () => {
         </span>
 
         <br />
-        <span className={styles.textlarge}> {['', '黒のターン', '白のターン'][turnColor]}</span>
+        <span className={styles.textlarge}>
+          {colorNum(0) === 0 || colorNum(3) === 0
+            ? ''
+            : ['', '黒のターン', '白のターン'][turnColor]}
+        </span>
       </>
       {colorNum(1) === 0 ? '黒の負け' : '' || colorNum(2) === 0 ? '白の負け' : ''}
       {colorNum(1) + colorNum(2) === 64 && (colorNum(1) > colorNum(2) ? '黒の勝ち' : '白の勝ち')}
