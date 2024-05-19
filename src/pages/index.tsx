@@ -105,7 +105,6 @@ const Home = () => {
             // 置いたオセロと同じ色
             if (i > 1) {
               if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
-                // // 周囲の座標の色と周囲の座標の周りの色
                 break;
               } else {
                 for (let s = i; s >= 0; s--) {
