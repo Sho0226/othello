@@ -36,10 +36,11 @@ const Home = () => {
       colorNum(2) === 0 ||
       colorNum(1) + colorNum(2) === 64 ||
       blackPassCount === 2 ||
-      whitePassCount === 2
-    ) {
+      whitePassCount === 2 ||
+      newBoard[y][x] === 0
+    )
       return;
-    }
+
     const assist = () => {
       for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
@@ -144,6 +145,7 @@ const Home = () => {
         }
       }
     }
+    console.log(colorNum(3));
 
     if (colorNum(3) === 0) {
       setTurnColor(turnColor);
@@ -194,6 +196,8 @@ const Home = () => {
       ) : whitePassCount === 2 ? (
         <span className={styles.text}>白の負け</span>
       ) : null}
+      {blackPassCount === 1 ? <span className={styles.text}>黒が1回パスしました</span> : ''}
+      {whitePassCount === 1 ? <span className={styles.text}>白が1回パスしました</span> : ''}
 
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
