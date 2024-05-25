@@ -4,12 +4,12 @@ import { useState } from 'react';
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [board, setBoard] = useState([
+    [1, 1, 0, 0, 0, 0, 0, 0],
+    [2, 2, 0, 0, 0, 0, 0, 0],
+    [3, 3, 3, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 1, 2, 3, 0, 0],
-    [0, 0, 3, 2, 1, 0, 0, 0],
-    [0, 0, 0, 3, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
@@ -146,7 +146,7 @@ const Home = () => {
     }
 
     if (colorNum(3) === 0) {
-      setTurnColor(3 - (3 - turnColor));
+      setTurnColor(turnColor);
       assist();
       if (turnColor === 2) {
         setBlackPassCount(blackPassCount + 1);
@@ -166,34 +166,34 @@ const Home = () => {
         </span>
 
         <br />
-        <span className={styles.textlarge}>
-          {colorNum(0) === 0 || colorNum(3) === 0
-            ? ''
-            : ['', '黒のターン', '白のターン'][turnColor]}
-        </span>
+        {colorNum(1) !== 0 &&
+          colorNum(2) !== 0 &&
+          colorNum(1) + colorNum(2) !== 64 &&
+          blackPassCount < 2 &&
+          whitePassCount < 2 && (
+            <span className={styles.textlarge}>
+              {colorNum(0) === 0 || colorNum(3) === 0
+                ? ''
+                : ['', '黒のターン', '白のターン'][turnColor]}
+            </span>
+          )}
       </>
+
       {colorNum(1) === 0 ? (
         <span className={styles.text}>黒の負け</span>
-      ) : '' || colorNum(2) === 0 ? (
+      ) : colorNum(2) === 0 ? (
         <span className={styles.text}>白の負け</span>
-      ) : (
-        ''
-      )}
-      {colorNum(1) + colorNum(2) === 64 &&
-        (colorNum(1) > colorNum(2) ? (
+      ) : colorNum(1) + colorNum(2) === 64 ? (
+        colorNum(1) > colorNum(2) ? (
           <span className={styles.text}>黒の勝ち</span>
         ) : (
           <span className={styles.text}>白の勝ち</span>
-        ))}
-
-      {colorNum(1) + colorNum(2) < 64 &&
-        (blackPassCount === 2 ? (
-          <span className={styles.text}>黒の負け:二回パス</span>
-        ) : '' || whitePassCount === 2 ? (
-          <span className={styles.text}>白の負け:二回パス</span>
-        ) : (
-          ''
-        ))}
+        )
+      ) : blackPassCount === 2 ? (
+        <span className={styles.text}>黒の負け</span>
+      ) : whitePassCount === 2 ? (
+        <span className={styles.text}>白の負け</span>
+      ) : null}
 
       <div className={styles.boardstyle}>
         {board.map((row, y) =>
