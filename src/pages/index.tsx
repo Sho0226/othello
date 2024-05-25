@@ -29,6 +29,9 @@ const Home = () => {
 
   const colorNum = (col: number) => newBoard.flat().filter((c) => c === col).length;
   const newBoard = structuredClone(board);
+  const removeCandidates = (board: number[][]) => {
+    return board.map((row) => row.map((cell) => (cell === 3 ? 0 : cell)));
+  };
 
   const clickHandler = (x: number, y: number) => {
     if (
@@ -159,6 +162,15 @@ const Home = () => {
     }
     console.table(newBoard);
   };
+  if (
+    colorNum(1) === 0 ||
+    colorNum(2) === 0 ||
+    colorNum(1) + colorNum(2) === 64 ||
+    blackPassCount === 2 ||
+    whitePassCount === 2
+  ) {
+    setBoard(removeCandidates(newBoard));
+  }
 
   return (
     <div className={styles.container}>
