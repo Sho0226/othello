@@ -30,6 +30,7 @@
 .stonestyle {
   width: 56px;
   height: 56px;
+  cursor: pointer;
   background-color: white;
   border-radius: 50%;
 }
@@ -41,6 +42,7 @@
 .blue {
   width: 14px;
   height: 14px;
+  cursor: pointer;
   border-radius: 50%;
 }
 

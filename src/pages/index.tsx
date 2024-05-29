@@ -41,6 +41,8 @@ const Home = () => {
       blackPassCount === 2 ||
       whitePassCount === 2 ||
       newBoard[y][x] === 0
+      //return がおかしい？
+      //レンダリングが複数？
     )
       return;
 
