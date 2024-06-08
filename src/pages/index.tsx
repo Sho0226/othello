@@ -93,15 +93,12 @@ const Home = () => {
         const [x1, y1] = direction;
 
         for (let i = 1; i < 8; i++) {
-          //オセロを置くi個下の座標
           if (board[y + y1 * i] !== undefined && board[y + y1 * i][x + x1 * i] !== undefined) {
             if (board[y + y1 * i][x + x1 * i] === 0) {
               break;
             } else if (board[y + y1 * i][x + x1 * i] === 3) {
-              // 置いてない座標
               break;
             } else if (board[y + y1 * i][x + x1 * i] === turnColor) {
-              // 置いたオセロと同じ色
               if (i > 1) {
                 if (board[y + y1 * i][x + x1 * i] === board[y + y1][x + x1]) {
                   break;
