@@ -25,7 +25,7 @@
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.2",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.33.0",
     "eslint-config-next": "^15.1.5",
     "eslint-config-prettier": "^10.1.1",
     "happy-css-modules": "^3.2.0",
